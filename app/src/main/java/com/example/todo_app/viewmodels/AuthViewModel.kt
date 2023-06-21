@@ -7,8 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todo_app.R
+import com.example.todo_app.data.models.ErrorData
 import com.example.todo_app.data.repositories.interfaces.AuthRepository
 import com.example.todo_app.ui.fragments.auth.LoginFragment
+import com.example.todo_app.utils.AppContants
 import com.example.todo_app.utils.LogUtils
 import com.example.todo_app.utils.Resource
 import com.example.todo_app.utils.StringUtils
@@ -48,11 +50,17 @@ class AuthViewModel @Inject constructor(
         _loginLiveData.value = Resource.Loading
         val userEmail = email.value!!
         val pass = password.value!!
-        if(StringUtils.isEmailValid(userEmail) && StringUtils.isPasswordValid(pass)) {
-            val result = repository.login(userEmail, pass)
-            _loginLiveData.value = result
-        }else{
-            _loginLiveData.value = Resource.Failure(Exception("Invalid Email or Password"))
+        StringUtils.apply {
+            if(!isEmailValid(userEmail)) {
+                _loginLiveData.value = Resource.Failure(ErrorData(AppContants.EMAIL,"Invalid Email Address"))
+            }else if(isPasswordInvalid(pass)!=null){
+                _loginLiveData.value = Resource.Failure(ErrorData(AppContants.PASSWORD,
+                    isPasswordInvalid(pass).toString()
+                ))
+            }else{
+                val result = repository.login(userEmail, pass)
+                _loginLiveData.value = result
+            }
         }
     }
 
@@ -63,11 +71,18 @@ class AuthViewModel @Inject constructor(
         val name = fullname.value!!
 
         StringUtils.apply {
-            if(isEmailValid(userEmail) && isPasswordValid(pass) && isStringValid(name)) {
+            if(!isEmailValid(userEmail)) {
+                _signupLiveData.value = Resource.Failure(ErrorData(AppContants.EMAIL,"Invalid Email Address"))
+            }else if(isPasswordInvalid(pass)!=null){
+                _signupLiveData.value = Resource.Failure(ErrorData(AppContants.PASSWORD,isPasswordInvalid(pass).toString()))
+            }else if(isNameInvalid(name)!=null){
+                _signupLiveData.value = Resource.Failure(ErrorData(AppContants.NAME,
+                    isNameInvalid(name).toString()
+                ))
+            }
+            else{
                 val result = repository.signup(name, userEmail, pass)
                 _signupLiveData.value = result
-            }else{
-                _signupLiveData.value = Resource.Failure(Exception("Invalid data"))
             }
         }
     }
@@ -81,10 +96,9 @@ class AuthViewModel @Inject constructor(
                 val account = task.getResult(ApiException::class.java)!!
 
                 val result = repository.signInWithGoogle(account.idToken!!)
-                LogUtils.showLog("GOOGLE RESULT",result.toString())
                 _loginLiveData.value = result
             } catch (e: ApiException) {
-                _loginLiveData.value = Resource.Failure(e)
+                _loginLiveData.value = Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
             }
         }
     }

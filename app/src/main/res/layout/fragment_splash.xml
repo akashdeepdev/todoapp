@@ -15,7 +15,7 @@
         android:fontFamily="@font/archivo_black"
         android:text="@string/todo_app"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="@color/secondary"
         />
 

@@ -1,6 +1,8 @@
 package com.example.todo_app.data.repositories
 
+import com.example.todo_app.data.models.ErrorData
 import com.example.todo_app.data.repositories.interfaces.AuthRepository
+import com.example.todo_app.utils.AppContants
 import com.example.todo_app.utils.Resource
 import com.example.todo_app.utils.await
 import com.google.firebase.auth.FirebaseAuth
@@ -20,8 +22,7 @@ class AuthRepositoryImpl @Inject constructor(private val auth:FirebaseAuth): Aut
             val result = auth.signInWithEmailAndPassword(email, password).await()
             Resource.Success(result.user!!)
         } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
+            Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
         }
     }
 
@@ -35,8 +36,7 @@ class AuthRepositoryImpl @Inject constructor(private val auth:FirebaseAuth): Aut
             result.user?.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(name).build())?.await()
             return@withContext Resource.Success(result.user!!)
         } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
+            Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
         }
     }
 
@@ -47,8 +47,7 @@ class AuthRepositoryImpl @Inject constructor(private val auth:FirebaseAuth): Aut
             val result = auth.signInWithCredential(credential).await()
             return@withContext Resource.Success(result.user!!)
         } catch (e: Exception) {
-            e.printStackTrace()
-            Resource.Failure(e)
+            Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
         }
     }
 

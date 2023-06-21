@@ -65,7 +65,6 @@ class PendingTodoFragment : Fragment(),ItemClickListener, OnRefreshListener,Sear
                 }
                 is Resource.Failure->{
                     toggleLoader(false)
-                    LogUtils.showLog(TAG,it.exception.message.toString())
                 }
                 else->{}
             }
@@ -86,7 +85,6 @@ class PendingTodoFragment : Fragment(),ItemClickListener, OnRefreshListener,Sear
                 }
                 is Resource.Failure->{
                     toggleLoader(false)
-                    LogUtils.showLog(TAG,it.exception.message.toString())
                 }
                 else->{}
             }

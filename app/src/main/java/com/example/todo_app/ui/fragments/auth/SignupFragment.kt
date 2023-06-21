@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.todo_app.R
 import com.example.todo_app.databinding.FragmentSignupBinding
+import com.example.todo_app.utils.AppContants
 import com.example.todo_app.utils.LogUtils
 import com.example.todo_app.utils.Resource
 import com.example.todo_app.viewmodels.AuthViewModel
@@ -30,16 +31,15 @@ class SignupFragment : Fragment(),View.OnClickListener {
         binding= DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = requireActivity()
-        viewModel.signupLiveData.observe(requireActivity()) { observeLoginFlow(it) }
+        viewModel.signupLiveData.observe(requireActivity()) { observeSignupFlow(it) }
         binding.apply {
             buttonLoginUser.setOnClickListener(this@SignupFragment)
         }
         return binding.root
     }
 
-    private fun observeLoginFlow(value: Resource<FirebaseUser>?){
+    private fun observeSignupFlow(value: Resource<FirebaseUser>?){
         value.let {
-            binding.error.visibility = View.GONE
             when(it){
                 is Resource.Loading->{
                     toggleSignupButton(false)
@@ -50,9 +50,23 @@ class SignupFragment : Fragment(),View.OnClickListener {
                 }
                 is Resource.Failure->{
                     toggleSignupButton(true)
-                    LogUtils.showLog(TAG,it.exception.message.toString())
-                    binding.error.text= it.exception.message.toString()
-                    binding.error.visibility = View.VISIBLE
+                    it.apply {
+                        if(this.error.type===AppContants.EMAIL){
+                            binding.email.error= this.error.message.toString()
+                        }
+
+                        if(this.error.type===AppContants.PASSWORD){
+                            binding.password.error= this.error.message.toString()
+                        }
+
+                        if(this.error.type===AppContants.NAME){
+                            binding.name.error= this.error.message.toString()
+                        }
+
+                        if(error.type==AppContants.EXCEPTION){
+                            LogUtils.showToast(requireContext(),error.message)
+                        }
+                    }
                 }
                 else->{}
             }

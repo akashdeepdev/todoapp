@@ -1,8 +1,10 @@
 package com.example.todo_app.data.repositories
 
 import com.example.todo_app.data.apis.TodoApiServices
+import com.example.todo_app.data.models.ErrorData
 import com.example.todo_app.data.models.Todo
 import com.example.todo_app.data.repositories.interfaces.TodoRepository
+import com.example.todo_app.utils.AppContants
 import com.example.todo_app.utils.LogUtils
 import com.example.todo_app.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +20,10 @@ class TodoRepositoryImpl @Inject constructor(private val todoApiServices: TodoAp
             if(response.code()==200) {
                 Resource.Success(response.body())
             }else{
-                Resource.Failure(Exception(response.message()))
+                Resource.Failure(ErrorData("TodoListAPI",response.errorBody().toString()))
             }
         }catch (e:java.lang.Exception){
-            Resource.Failure(Exception(e))
+            Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
         }
     }
 
@@ -31,10 +33,10 @@ class TodoRepositoryImpl @Inject constructor(private val todoApiServices: TodoAp
            if(response.code()==201) {
                 Resource.Success(response.body())
             }else{
-                Resource.Failure(Exception(response.message()))
+               Resource.Failure(ErrorData("TodoListAPI",response.errorBody().toString()))
             }
         }catch (e:java.lang.Exception){
-            Resource.Failure(Exception(e))
+            Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
         }
     }
 
@@ -43,7 +45,7 @@ class TodoRepositoryImpl @Inject constructor(private val todoApiServices: TodoAp
         try {
            todoApiServices.deleteTaskFromAPI(id)
         }catch (e:java.lang.Exception){
-            Resource.Failure(Exception(e))
+            Resource.Failure(ErrorData("Exception",e.message.toString()))
         }
     }
 }

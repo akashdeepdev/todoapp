@@ -55,7 +55,6 @@ class CompletedTodoFragment : Fragment(),ItemClickListener,OnRefreshListener, Se
                 }
                 is Resource.Failure->{
                     toggleLoader(false)
-                    LogUtils.showLog(PendingTodoFragment.TAG,it.exception.message.toString())
                 }
                 else->{}
             }

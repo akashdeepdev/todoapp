@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.todo_app.R
 import com.example.todo_app.databinding.FragmentLoginBinding
+import com.example.todo_app.utils.AppContants
 import com.example.todo_app.utils.LogUtils
 import com.example.todo_app.utils.Resource
 import com.example.todo_app.utils.await
@@ -63,7 +64,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     private fun observeLoginFlow(value:Resource<FirebaseUser>?){
             value.let {
-                binding.error.visibility = View.GONE
                 when(it){
                     is Resource.Loading->{
                         toggleLoginButton(false)
@@ -74,9 +74,19 @@ class LoginFragment : Fragment(), View.OnClickListener {
                     }
                     is Resource.Failure->{
                         toggleLoginButton(true)
-                        LogUtils.showLog(TAG,it.exception.message.toString())
-                        binding.error.text= it.exception.message.toString()
-                        binding.error.visibility = View.VISIBLE
+                        it.apply {
+                            if(error.type==AppContants.EMAIL){
+                                binding.email.error= error.message.toString()
+                            }
+
+                            if(error.type==AppContants.PASSWORD){
+                                binding.password.error= error.message.toString()
+                            }
+
+                            if(error.type==AppContants.EXCEPTION){
+                                LogUtils.showToast(requireContext(),error.message)
+                            }
+                        }
                     }
                     else->{}
                 }

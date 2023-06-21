@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.todo_app.data.models.ErrorData
 import com.example.todo_app.data.models.Todo
 import com.example.todo_app.data.repositories.interfaces.TodoRepository
+import com.example.todo_app.utils.AppContants
 import com.example.todo_app.utils.LogUtils
 import com.example.todo_app.utils.Resource
 import com.example.todo_app.utils.StringUtils
@@ -37,7 +39,7 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
             val result = todoRepository.getTodoList()
             _todoListLiveData.value = result
         }catch (e:Exception){
-            _todoListLiveData.value = Resource.Failure(e)
+            _todoListLiveData.value = Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
         }
     }
 
@@ -52,10 +54,10 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
                 _todoDetailsLiveData.value = result
                 task.value = ""
             }else{
-                _todoDetailsLiveData.value = Resource.Failure(Exception("Invalid Data"))
+                _todoDetailsLiveData.value = Resource.Failure(ErrorData(AppContants.TASK,"Invalid Task"))
             }
         }catch (e:Exception){
-            _todoDetailsLiveData.value = Resource.Failure(e)
+            _todoDetailsLiveData.value = Resource.Failure(ErrorData(AppContants.EXCEPTION,e.message.toString()))
         }
     }
 
@@ -63,6 +65,7 @@ class TodoViewModel @Inject constructor(private val todoRepository: TodoReposito
         try {
             todoRepository.deleteTask(id)
         }catch (e:Exception){
+            LogUtils.showLog("DELETED_TASK",e.message.toString())
         }
     }
 
