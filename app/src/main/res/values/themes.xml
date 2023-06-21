@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.TodoApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnBackground">@color/off_white</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="Theme.TodoApp" parent="Base.Theme.TodoApp" />
+    <style name="ThemeOverlay.SearchView" parent="">
+        <item name="android:editTextColor">@color/primary</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+    </style>
+</resources>

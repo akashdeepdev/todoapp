@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Todo-App</string>
+    <string name="todo_app">TODO APP</string>
+    <string name="welcome_to_todo_app">Welcome to Todo App</string>
+    <string name="hello_blank_fragment">Hello World</string>
+    <string name="log_in">Log in</string>
+    <string name="create_account">Create New Account</string>
+    <string name="user_example_com">user@example.com</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="already_have_an_account">Already have an account</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="enter_task">Enter Task...</string>
+    <string name="save">Save</string>
+    <string name="log_out">Log out</string>
+    <string name="delete">Delete</string>
+</resources>

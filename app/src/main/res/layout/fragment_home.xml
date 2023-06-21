@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.home.HomeFragment">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        android:layout_above="@id/bottomNavBarCard"
+        />
+<androidx.cardview.widget.CardView
+    android:id="@+id/bottomNavBarCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    app:cardElevation="20dp"
+    >
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+
+        android:background="@color/secondary"
+        android:elevation="10dp"
+        app:itemIconTint="@drawable/bottom_bar_item_selector"
+        app:itemTextColor="@drawable/bottom_bar_item_selector"
+        app:menu="@menu/botton_nav_menu" />
+</androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>
+</layout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item  android:id="@+id/pendingTodoFragment" android:icon="@drawable/baseline_pending_actions_24" android:iconTint="@color/secondary" android:title="Todo"/>
+    <item  android:id="@+id/completedTodoFragment" android:icon="@drawable/baseline_done_all_24" android:iconTint="@color/secondary" android:title="Completed"/>
+    <item  android:id="@+id/settingFragment" android:icon="@drawable/baseline_account_circle_24" android:iconTint="@color/secondary" android:title="Me"/>
+</menu>
